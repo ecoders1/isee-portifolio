@@ -1,39 +1,31 @@
 "use client";
 import { motion } from "framer-motion";
 import { Github, Mail, Heart, ArrowUp, Code2, Phone } from "lucide-react";
+import type { SectionId } from "@/app/page";
 
-const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
+const navLinks: { label: string; id: SectionId }[] = [
+  { label: "Home",     id: "home" },
+  { label: "About",    id: "about" },
+  { label: "Skills",   id: "skills" },
+  { label: "Projects", id: "projects" },
+  { label: "Services", id: "services" },
+  { label: "Contact",  id: "contact" },
 ];
 
 const socialLinks = [
+  { label: "GitHub",   href: "https://github.com/ecoders1",       icon: Github, color: "#fff" },
   {
-    label: "GitHub",
-    href: "https://github.com/ecoders1",
-    icon: Github,
-    color: "#fff",
+    label: "Telegram", href: "https://t.me/milkibn", color: "#229ED9",
+    svgPath: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.94c-.12.57-.45.71-.91.44l-2.52-1.86-1.22 1.17c-.13.14-.25.25-.52.25l.18-2.59 4.7-4.25c.2-.18-.04-.28-.32-.1L7.46 14.6l-2.46-.77c-.54-.17-.55-.54.11-.8l9.62-3.71c.44-.16.83.11.91.48z",
   },
-  {
-    label: "Telegram",
-    href: "https://t.me/milkibn",
-    svgPath:
-      "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.94c-.12.57-.45.71-.91.44l-2.52-1.86-1.22 1.17c-.13.14-.25.25-.52.25l.18-2.59 4.7-4.25c.2-.18-.04-.28-.32-.1L7.46 14.6l-2.46-.77c-.54-.17-.55-.54.11-.8l9.62-3.71c.44-.16.83.11.91.48z",
-    color: "#229ED9",
-  },
-  {
-    label: "Email",
-    href: "mailto:iyasu4313@gmail.com",
-    icon: Mail,
-    color: "#3b82f6",
-  },
+  { label: "Email",    href: "mailto:iyasu4313@gmail.com",         icon: Mail,   color: "#3b82f6" },
 ];
 
-export default function Footer() {
+interface FooterProps {
+  navigateTo: (section: SectionId) => void;
+}
+
+export default function Footer({ navigateTo }: FooterProps) {
   return (
     <footer
       className="relative pt-16 pb-8 px-4"
@@ -96,14 +88,14 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <div className="grid grid-cols-2 gap-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-gray-500 hover:text-blue-400 transition-colors text-sm"
+              {navLinks.map(({ label, id }) => (
+                <button
+                  key={id}
+                  onClick={() => navigateTo(id)}
+                  className="text-left text-gray-500 hover:text-blue-400 transition-colors text-sm"
                 >
-                  {link.label}
-                </a>
+                  {label}
+                </button>
               ))}
             </div>
           </div>
@@ -165,7 +157,7 @@ export default function Footer() {
             using Next.js and Tailwind CSS.
           </p>
           <motion.button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => navigateTo("home")}
             className="w-10 h-10 rounded-full flex items-center justify-center text-white"
             style={{ background: "linear-gradient(135deg, #3b82f6, #8b5cf6)" }}
             whileHover={{ scale: 1.1, y: -3 }}

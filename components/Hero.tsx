@@ -1,15 +1,15 @@
 "use client";
 import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
-import {
-  Download,
-  Mail,
-  Github,
-  Send,
-  ArrowDown,
-} from "lucide-react";
+import { Download, Mail, Github, Send, ArrowDown } from "lucide-react";
+import type { SectionId } from "@/app/page";
 
-export default function Hero() {
+interface HeroProps {
+  navigateTo?: (section: SectionId) => void;
+}
+
+export default function Hero({ navigateTo }: HeroProps) {
+  const goTo = (section: SectionId) => navigateTo?.(section);
   return (
     <section
       id="home"
@@ -130,7 +130,7 @@ export default function Hero() {
           >
             <motion.a
               href="/cv.pdf"
-              download
+              download="Isayas_Fikadu_CV.pdf"
               className="btn-primary flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -138,24 +138,24 @@ export default function Hero() {
               <Download size={16} />
               Download CV
             </motion.a>
-            <motion.a
-              href="#contact"
+            <motion.button
+              onClick={() => goTo("contact")}
               className="btn-outline flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Mail size={16} />
               Contact Me
-            </motion.a>
-            <motion.a
-              href="mailto:isayasfikadu@gmail.com"
+            </motion.button>
+            <motion.button
+              onClick={() => goTo("contact")}
               className="btn-outline flex items-center gap-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Send size={16} />
               Hire Me
-            </motion.a>
+            </motion.button>
           </motion.div>
 
           {/* Social icons */}
@@ -262,15 +262,15 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <motion.a
-        href="#about"
+      <motion.button
+        onClick={() => goTo("about")}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 hover:text-blue-400 transition-colors"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-xs">Scroll Down</span>
+        <span className="text-xs">Explore</span>
         <ArrowDown size={16} />
-      </motion.a>
+      </motion.button>
     </section>
   );
 }

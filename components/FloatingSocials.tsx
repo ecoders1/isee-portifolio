@@ -1,14 +1,22 @@
 "use client";
 import { motion } from "framer-motion";
 import { Github, Send, Mail } from "lucide-react";
+import type { SectionId } from "@/app/page";
 
 const socials = [
-  { icon: Github, href: "https://github.com/ecoders1", label: "GitHub", color: "#fff" },
-  { icon: Send, href: "https://t.me/milkibn", label: "Telegram", color: "#229ED9" },
-  { icon: Mail, href: "mailto:iyasu4313@gmail.com", label: "Email", color: "#3b82f6" },
+  { icon: Github, href: "https://github.com/ecoders1",     label: "GitHub",   color: "#fff" },
+  { icon: Send,   href: "https://t.me/milkibn",            label: "Telegram", color: "#229ED9" },
+  { icon: Mail,   href: "mailto:iyasu4313@gmail.com",      label: "Email",    color: "#3b82f6" },
 ];
 
-export default function FloatingSocials() {
+interface Props {
+  navigateTo: (section: SectionId) => void;
+}
+
+export default function FloatingSocials({ navigateTo }: Props) {
+  // suppress unused warning — navigateTo available for future use
+  void navigateTo;
+
   return (
     <div className="fixed left-4 bottom-1/3 z-40 hidden xl:flex flex-col gap-3">
       {socials.map(({ icon: Icon, href, label, color }, i) => (
@@ -21,27 +29,24 @@ export default function FloatingSocials() {
           className="w-10 h-10 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-white transition-all group relative"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1 + i * 0.1 }}
+          transition={{ delay: 0.8 + i * 0.1 }}
           whileHover={{ scale: 1.15, x: 4 }}
         >
           <Icon size={16} />
-          {/* Tooltip */}
           <span
             className="absolute left-12 px-2 py-1 rounded text-xs font-medium text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-            style={{ background: color || "#3b82f6" }}
+            style={{ background: color }}
           >
             {label}
           </span>
         </motion.a>
       ))}
-
-      {/* Line below */}
       <motion.div
         className="w-px h-16 mx-auto"
         style={{ background: "linear-gradient(180deg, rgba(59,130,246,0.5), transparent)" }}
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
+        transition={{ delay: 1.2, duration: 0.4 }}
       />
     </div>
   );
