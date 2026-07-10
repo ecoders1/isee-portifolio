@@ -228,27 +228,12 @@ export default function Hero() {
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-              {/* Placeholder gradient avatar */}
-              <div
-                className="w-full h-full flex items-center justify-center text-white"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #1e3a5f 0%, #2d1b5e 50%, #1a0a2e 100%)",
-                }}
-              >
-                <div className="text-center">
-                  <div
-                    className="w-24 h-24 rounded-full mx-auto mb-3 flex items-center justify-center text-4xl font-bold"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-                    }}
-                  >
-                    IF
-                  </div>
-                  <p className="text-gray-300 text-sm">Isayas Fikadu</p>
-                </div>
-              </div>
+              {/* Real profile photo */}
+              <img
+                src="/isayas.jpg"
+                alt="Isayas Fikadu – Full Stack Developer"
+                className="w-full h-full object-cover object-top"
+              />
             </motion.div>
 
             {/* Floating tech badges */}

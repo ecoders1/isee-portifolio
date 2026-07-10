@@ -43,27 +43,20 @@ export default function About() {
             <div className="relative">
               <div
                 className="w-72 h-72 sm:w-80 sm:h-80 rounded-2xl overflow-hidden"
+              >
+                <div
+                className="w-full h-full overflow-hidden rounded-2xl"
                 style={{
-                  background: "linear-gradient(135deg, #1e3a5f, #2d1b5e)",
                   border: "1px solid rgba(59,130,246,0.3)",
                   boxShadow: "0 0 40px rgba(59,130,246,0.2)",
                 }}
               >
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center p-6">
-                    <div
-                      className="w-28 h-28 rounded-full mx-auto mb-4 flex items-center justify-center text-5xl font-bold text-white"
-                      style={{
-                        background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-                        boxShadow: "0 0 30px rgba(139,92,246,0.5)",
-                      }}
-                    >
-                      IF
-                    </div>
-                    <p className="text-white font-semibold text-lg">Isayas Fikadu</p>
-                    <p className="text-blue-400 text-sm mt-1">Full Stack Developer</p>
-                  </div>
-                </div>
+                <img
+                  src="/isayas.jpg"
+                  alt="Isayas Fikadu"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
               </div>
 
               {/* Decorative elements */}
