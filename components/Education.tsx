@@ -8,9 +8,9 @@ const education = [
     degree: "Bachelor of Computer Science",
     institution: "Rift Valley University",
     campus: "Ambo Campus",
-    period: "2020 – Present",
+    period: "2020 – 2025",
     description:
-      "Studying Computer Science with focus on software engineering, algorithms, data structures, web development, and database management. Actively participating in coding clubs and hackathons.",
+      "Graduated with a Bachelor's in Computer Science, focusing on software engineering, algorithms, data structures, web development, and database management. Actively participated in coding clubs and hackathons.",
     gpa: "3.8/4.0",
     color: "#3b82f6",
   },
@@ -143,6 +143,9 @@ export default function Education() {
                       </span>
                       <p className="text-green-400 text-sm font-medium mt-2">
                         GPA: {edu.gpa}
+                      </p>
+                      <p className="text-purple-400 text-xs font-medium mt-1">
+                        🎓 Graduated 2025
                       </p>
                     </div>
                   </div>

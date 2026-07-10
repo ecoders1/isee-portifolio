@@ -96,9 +96,9 @@ export default function About() {
               </p>
               <p className="text-gray-400 leading-relaxed">
                 I love solving real-world problems through software development
-                and continuously learning new technologies. Currently pursuing
-                my Bachelor&apos;s in Computer Science at Rift Valley
-                University, Ambo Campus.
+                and continuously learning new technologies. I graduated with a
+                Bachelor&apos;s in Computer Science from Rift Valley
+                University, Ambo Campus in 2025.
               </p>
             </div>
 

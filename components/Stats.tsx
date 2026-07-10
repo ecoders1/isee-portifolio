@@ -7,7 +7,7 @@ const stats = [
   { value: 20, suffix: "+", label: "Projects Completed", emoji: "🚀", color: "#3b82f6" },
   { value: 15, suffix: "+", label: "Happy Clients", emoji: "😊", color: "#8b5cf6" },
   { value: 15, suffix: "+", label: "Technologies", emoji: "💻", color: "#ec4899" },
-  { value: 4, suffix: "+", label: "Years of Learning", emoji: "📚", color: "#10b981" },
+  { value: 3, suffix: "+", label: "Years of Experience", emoji: "📚", color: "#10b981" },
 ];
 
 export default function Stats() {

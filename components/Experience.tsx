@@ -7,45 +7,45 @@ const experiences = [
   {
     icon: Code,
     title: "Full Stack Web Development",
-    period: "2022 – Present",
+    period: "2022 – 2025",
     description:
-      "Building complete web applications from front to back using React, Next.js, Node.js, and various databases. Delivering full-stack solutions for clients and personal projects.",
+      "Built complete web applications from front to back using React, Next.js, Node.js, and various databases. Delivered full-stack solutions for clients and personal projects.",
     tags: ["React", "Next.js", "Node.js", "TypeScript"],
     color: "#3b82f6",
   },
   {
     icon: Layout,
     title: "Responsive Website Design",
-    period: "2021 – Present",
+    period: "2021 – 2025",
     description:
-      "Designing and developing mobile-first, fully responsive websites that look great on all devices. Specializing in modern UI with Tailwind CSS and CSS animations.",
+      "Designed and developed mobile-first, fully responsive websites that look great on all devices. Specialized in modern UI with Tailwind CSS and CSS animations.",
     tags: ["HTML5", "CSS3", "Tailwind CSS", "Bootstrap"],
     color: "#8b5cf6",
   },
   {
     icon: Briefcase,
     title: "UI/UX Design",
-    period: "2022 – Present",
+    period: "2022 – 2025",
     description:
-      "Creating intuitive user interfaces and user experience designs using Figma. Focusing on accessibility, usability, and modern design principles.",
+      "Created intuitive user interfaces and user experience designs using Figma. Focused on accessibility, usability, and modern design principles.",
     tags: ["Figma", "Prototyping", "Wireframing", "Design Systems"],
     color: "#ec4899",
   },
   {
     icon: Database,
     title: "Database Design",
-    period: "2022 – Present",
+    period: "2022 – 2025",
     description:
-      "Designing and implementing scalable database architectures. Working with relational (MySQL, PostgreSQL) and NoSQL (MongoDB, Firebase) databases.",
+      "Designed and implemented scalable database architectures. Worked with relational (MySQL, PostgreSQL) and NoSQL (MongoDB, Firebase) databases.",
     tags: ["MySQL", "PostgreSQL", "MongoDB", "Firebase"],
     color: "#10b981",
   },
   {
     icon: Globe,
     title: "REST API Development",
-    period: "2022 – Present",
+    period: "2022 – 2025",
     description:
-      "Designing and building RESTful APIs with proper authentication, authorization, and documentation. Using Express.js and Next.js API routes.",
+      "Designed and built RESTful APIs with proper authentication, authorization, and documentation. Used Express.js and Next.js API routes.",
     tags: ["REST API", "Express.js", "Next.js", "Postman"],
     color: "#f59e0b",
   },
