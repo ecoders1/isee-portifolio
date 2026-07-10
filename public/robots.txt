@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://isayasfikadu.vercel.app/sitemap.xml
