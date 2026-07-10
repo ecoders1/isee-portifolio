@@ -5,7 +5,6 @@ import {
   Download,
   Mail,
   Github,
-  Linkedin,
   Send,
   ArrowDown,
 } from "lucide-react";
@@ -167,16 +166,16 @@ export default function Hero() {
             transition={{ delay: 0.9 }}
           >
             {[
-              { icon: Github, href: "https://github.com/isayasfikadu", label: "GitHub" },
-              {
-                icon: Linkedin,
-                href: "https://linkedin.com/in/isayasfikadu",
-                label: "LinkedIn",
-              },
+              { icon: Github, href: "https://github.com/ecoders1", label: "GitHub" },
               {
                 icon: Send,
-                href: "https://t.me/isayasfikadu",
+                href: "https://t.me/milkibn",
                 label: "Telegram",
+              },
+              {
+                icon: Mail,
+                href: "mailto:iyasu4313@gmail.com",
+                label: "Email",
               },
             ].map(({ icon: Icon, href, label }) => (
               <motion.a

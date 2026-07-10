@@ -1,12 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Send, Mail } from "lucide-react";
+import { Github, Send, Mail } from "lucide-react";
 
 const socials = [
-  { icon: Github, href: "https://github.com/isayasfikadu", label: "GitHub", color: "#fff" },
-  { icon: Linkedin, href: "https://linkedin.com/in/isayasfikadu", label: "LinkedIn", color: "#0a66c2" },
-  { icon: Send, href: "https://t.me/isayasfikadu", label: "Telegram", color: "#229ED9" },
-  { icon: Mail, href: "mailto:isayasfikadu@gmail.com", label: "Email", color: "#3b82f6" },
+  { icon: Github, href: "https://github.com/ecoders1", label: "GitHub", color: "#fff" },
+  { icon: Send, href: "https://t.me/milkibn", label: "Telegram", color: "#229ED9" },
+  { icon: Mail, href: "mailto:iyasu4313@gmail.com", label: "Email", color: "#3b82f6" },
 ];
 
 export default function FloatingSocials() {

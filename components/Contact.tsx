@@ -8,7 +8,6 @@ import {
   Phone,
   MapPin,
   Github,
-  Linkedin,
   Send,
   CheckCircle,
   AlertCircle,
@@ -19,15 +18,15 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "isayasfikadu@gmail.com",
-    href: "mailto:isayasfikadu@gmail.com",
+    value: "iyasu4313@gmail.com",
+    href: "mailto:iyasu4313@gmail.com",
     color: "#3b82f6",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+251 91 234 5678",
-    href: "tel:+251912345678",
+    value: "+251 94 313 3184",
+    href: "tel:+251943133184",
     color: "#8b5cf6",
   },
   {
@@ -43,20 +42,24 @@ const socialLinks = [
   {
     icon: Github,
     label: "GitHub",
-    href: "https://github.com/isayasfikadu",
+    href: "https://github.com/ecoders1",
     color: "#fff",
+    bg: "rgba(255,255,255,0.1)",
   },
   {
-    icon: Linkedin,
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/isayasfikadu",
-    color: "#0a66c2",
-  },
-  {
-    icon: Send,
     label: "Telegram",
-    href: "https://t.me/isayasfikadu",
+    href: "https://t.me/milkibn",
     color: "#229ED9",
+    bg: "rgba(34,158,217,0.1)",
+    svgPath:
+      "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.94c-.12.57-.45.71-.91.44l-2.52-1.86-1.22 1.17c-.13.14-.25.25-.52.25l.18-2.59 4.7-4.25c.2-.18-.04-.28-.32-.1L7.46 14.6l-2.46-.77c-.54-.17-.55-.54.11-.8l9.62-3.71c.44-.16.83.11.91.48z",
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    href: "mailto:iyasu4313@gmail.com",
+    color: "#3b82f6",
+    bg: "rgba(59,130,246,0.1)",
   },
 ];
 
@@ -71,7 +74,6 @@ export default function Contact() {
     e.preventDefault();
     if (!formRef.current) return;
     setStatus("loading");
-
     try {
       await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
@@ -84,7 +86,6 @@ export default function Contact() {
     } catch {
       setStatus("error");
     }
-
     setTimeout(() => setStatus("idle"), 5000);
   };
 
@@ -109,14 +110,14 @@ export default function Contact() {
           />
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
             Have a project in mind? Ready to collaborate? Feel free to reach
-            out. I&apos;ll get back to you as soon as possible.
+            out — I&apos;ll get back to you as soon as possible.
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Left: Info */}
           <motion.div
-            className="lg:col-span-2 flex flex-col gap-6"
+            className="lg:col-span-2 flex flex-col gap-5"
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.2 }}
@@ -152,21 +153,36 @@ export default function Contact() {
                 Connect with me
               </p>
               <div className="flex gap-3">
-                {socialLinks.map(({ icon: Icon, label, href, color }) => (
+                {socialLinks.map(({ label, href, color, bg, icon: Icon, svgPath }) => (
                   <motion.a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="w-12 h-12 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-white transition-colors"
-                    style={{ "--hover-color": color } as React.CSSProperties}
+                    className="w-12 h-12 rounded-xl flex items-center justify-center transition-all"
+                    style={{ background: bg, border: `1px solid ${color}30` }}
                     whileHover={{ scale: 1.15, y: -3 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Icon size={20} />
+                    {svgPath ? (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill={color}>
+                        <path d={svgPath} />
+                      </svg>
+                    ) : Icon ? (
+                      <Icon size={20} color={color} />
+                    ) : null}
                   </motion.a>
                 ))}
+              </div>
+            </div>
+
+            {/* Availability badge */}
+            <div className="glass rounded-2xl p-5 flex items-center gap-3">
+              <span className="w-3 h-3 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
+              <div>
+                <p className="text-white text-sm font-medium">Available for work</p>
+                <p className="text-gray-500 text-xs">Open to freelance & full-time roles</p>
               </div>
             </div>
           </motion.div>
@@ -185,9 +201,7 @@ export default function Contact() {
             >
               <div className="grid sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm text-gray-400 font-medium">
-                    Full Name *
-                  </label>
+                  <label className="text-sm text-gray-400 font-medium">Full Name *</label>
                   <input
                     type="text"
                     name="user_name"
@@ -197,9 +211,7 @@ export default function Contact() {
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm text-gray-400 font-medium">
-                    Email Address *
-                  </label>
+                  <label className="text-sm text-gray-400 font-medium">Email Address *</label>
                   <input
                     type="email"
                     name="user_email"
@@ -211,9 +223,7 @@ export default function Contact() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400 font-medium">
-                  Subject *
-                </label>
+                <label className="text-sm text-gray-400 font-medium">Subject *</label>
                 <input
                   type="text"
                   name="subject"
@@ -224,9 +234,7 @@ export default function Contact() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400 font-medium">
-                  Message *
-                </label>
+                <label className="text-sm text-gray-400 font-medium">Message *</label>
                 <textarea
                   name="message"
                   required
@@ -236,25 +244,24 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Status messages */}
               {status === "success" && (
                 <motion.div
-                  className="flex items-center gap-2 text-green-400 text-sm"
+                  className="flex items-center gap-2 text-green-400 text-sm bg-green-400/10 rounded-xl px-4 py-3"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
                   <CheckCircle size={16} />
-                  Message sent successfully! I&apos;ll get back to you soon.
+                  Message sent! I&apos;ll get back to you soon.
                 </motion.div>
               )}
               {status === "error" && (
                 <motion.div
-                  className="flex items-center gap-2 text-red-400 text-sm"
+                  className="flex items-center gap-2 text-red-400 text-sm bg-red-400/10 rounded-xl px-4 py-3"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
                   <AlertCircle size={16} />
-                  Failed to send. Please try emailing me directly.
+                  Failed to send. Email me directly at iyasu4313@gmail.com
                 </motion.div>
               )}
 
@@ -266,15 +273,9 @@ export default function Contact() {
                 whileTap={status !== "loading" ? { scale: 0.98 } : {}}
               >
                 {status === "loading" ? (
-                  <>
-                    <Loader2 size={16} className="animate-spin" />
-                    Sending...
-                  </>
+                  <><Loader2 size={16} className="animate-spin" /> Sending...</>
                 ) : (
-                  <>
-                    <Send size={16} />
-                    Send Message
-                  </>
+                  <><Send size={16} /> Send Message</>
                 )}
               </motion.button>
             </form>

@@ -13,19 +13,17 @@ const projects = [
     category: "Web App",
     color: "#3b82f6",
     emoji: "🎓",
-    featured: true,
-    links: { demo: "#", github: "#" },
+    links: { demo: "https://ethio2.vercel.app", github: "https://github.com/ecoders1" },
   },
   {
     title: "Apostolic Songs – Afaan Oromo",
     description:
       "Offline and online Afaan Oromo gospel songs application with search, playlist, download, and audio player features. Supports both online streaming and offline mode.",
-    tags: ["React Native", "Firebase", "Audio API"],
-    category: "Mobile App",
+    tags: ["React", "Firebase", "Audio API", "Tailwind CSS"],
+    category: "Web App",
     color: "#8b5cf6",
     emoji: "🎵",
-    featured: true,
-    links: { demo: "#", github: "#" },
+    links: { demo: "https://faarsaa.vercel.app", github: "https://github.com/ecoders1" },
   },
   {
     title: "Online Exam System",
@@ -35,8 +33,7 @@ const projects = [
     category: "Web App",
     color: "#ec4899",
     emoji: "📝",
-    featured: true,
-    links: { demo: "#", github: "#" },
+    links: { demo: "#", github: "https://github.com/ecoders1" },
   },
   {
     title: "Web-Based Short-Term Training System",
@@ -46,8 +43,7 @@ const projects = [
     category: "Web App",
     color: "#10b981",
     emoji: "🏫",
-    featured: false,
-    links: { demo: "#", github: "#" },
+    links: { demo: "#", github: "https://github.com/ecoders1" },
   },
 ];
 
@@ -100,16 +96,11 @@ export default function Projects() {
               key={cat}
               onClick={() => setFilter(cat)}
               className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                filter === cat
-                  ? "text-white"
-                  : "glass text-gray-400 hover:text-white"
+                filter === cat ? "text-white" : "glass text-gray-400 hover:text-white"
               }`}
               style={
                 filter === cat
-                  ? {
-                      background:
-                        "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-                    }
+                  ? { background: "linear-gradient(135deg, #3b82f6, #8b5cf6)" }
                   : {}
               }
               whileHover={{ scale: 1.05 }}
@@ -144,16 +135,11 @@ export default function Projects() {
                   <motion.span
                     className="text-7xl"
                     animate={{ y: [0, -8, 0] }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                   >
                     {project.emoji}
                   </motion.span>
 
-                  {/* Category badge */}
                   <span
                     className="absolute top-4 right-4 text-xs font-medium px-3 py-1 rounded-full"
                     style={{
@@ -165,29 +151,35 @@ export default function Projects() {
                     {project.category}
                   </span>
 
-                  {/* Hover overlay */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ background: "rgba(0,0,0,0.7)" }}
+                  {/* Hover overlay with live links */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ background: "rgba(0,0,0,0.75)" }}
                   >
-                    <motion.a
-                      href={project.links.demo}
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-white"
-                      style={{ background: project.color }}
-                      whileHover={{ scale: 1.1 }}
-                      aria-label="View demo"
-                    >
-                      <Globe size={18} />
-                    </motion.a>
+                    {project.links.demo !== "#" && (
+                      <motion.a
+                        href={project.links.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg"
+                        style={{ background: project.color }}
+                        whileHover={{ scale: 1.15 }}
+                        aria-label="Live Demo"
+                      >
+                        <Globe size={18} />
+                      </motion.a>
+                    )}
                     <motion.a
                       href={project.links.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="w-12 h-12 rounded-full glass flex items-center justify-center text-white"
-                      whileHover={{ scale: 1.1 }}
-                      aria-label="View code"
+                      whileHover={{ scale: 1.15 }}
+                      aria-label="GitHub"
                     >
                       <Github size={18} />
                     </motion.a>
-                  </motion.div>
+                  </div>
                 </div>
 
                 {/* Card body */}
@@ -213,15 +205,25 @@ export default function Projects() {
                       </span>
                     ))}
                   </div>
-                  <div className="flex gap-3">
-                    <a
-                      href={project.links.demo}
-                      className="flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors"
-                    >
-                      <ExternalLink size={14} /> Live Demo
-                    </a>
+                  <div className="flex gap-4">
+                    {project.links.demo !== "#" ? (
+                      <a
+                        href={project.links.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors font-medium"
+                      >
+                        <ExternalLink size={14} /> Live Demo
+                      </a>
+                    ) : (
+                      <span className="flex items-center gap-1 text-sm text-gray-600 cursor-not-allowed">
+                        <ExternalLink size={14} /> Coming Soon
+                      </span>
+                    )}
                     <a
                       href={project.links.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors"
                     >
                       <Github size={14} /> Source Code
