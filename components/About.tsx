@@ -4,9 +4,9 @@ import { useInView } from "react-intersection-observer";
 import { User, MapPin, GraduationCap, Heart } from "lucide-react";
 
 const info = [
-  { icon: User, label: "Name", value: "Isayas Fikadu" },
-  { icon: MapPin, label: "Location", value: "Ethiopia" },
-  { icon: GraduationCap, label: "Degree", value: "B.Sc. Computer Science" },
+  { icon: User, label: "Full Name", value: "Isayas Fikadu Bazabi" },
+  { icon: MapPin, label: "Address", value: "Ambo, Ethiopia" },
+  { icon: GraduationCap, label: "Degree", value: "B.Sc. Computer Science – CGPA 3.89" },
   { icon: Heart, label: "Passion", value: "Building impactful software" },
 ];
 

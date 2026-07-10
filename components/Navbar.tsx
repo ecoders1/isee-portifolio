@@ -95,15 +95,15 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               </div>
             </a>
 
-            {/* Desktop nav links */}
-            <div className="hidden lg:flex items-center gap-0.5">
+            {/* Desktop nav links - proper spacing */}
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => {
                 const isActive = active === link.href.replace("#", "");
                 return (
                   <a
                     key={link.href}
                     href={link.href}
-                    className="relative px-3 py-1.5 text-sm font-medium rounded-lg transition-colors duration-200 group"
+                    className="relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 group whitespace-nowrap"
                     style={{ color: isActive ? "#60a5fa" : "#9ca3af" }}
                   >
                     {isActive && (

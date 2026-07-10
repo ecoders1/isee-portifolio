@@ -6,13 +6,23 @@ import { GraduationCap, Award, Download, ExternalLink } from "lucide-react";
 const education = [
   {
     degree: "Bachelor of Computer Science",
-    institution: "Rift Valley University",
-    campus: "Ambo Campus",
+    institution: "Rift Valley University (RVU)",
+    campus: "Ambo Campus, Ethiopia",
     period: "2020 – 2025",
     description:
-      "Graduated with a Bachelor's in Computer Science, focusing on software engineering, algorithms, data structures, web development, and database management. Actively participated in coding clubs and hackathons.",
-    gpa: "3.8/4.0",
+      "Graduated June 2025 (2017 E.C) with CGPA 3.89 and Exit Exam score of 50. Focused on software engineering, algorithms, data structures, web development, and database management.",
+    gpa: "3.89 / 4.0",
     color: "#3b82f6",
+  },
+  {
+    degree: "Secondary School (Grade 9–12)",
+    institution: "Gincii Secondary School",
+    campus: "Ethiopia",
+    period: "2010 – 2013 E.C",
+    description:
+      "Completed Grade 9–12 at Gincii Secondary School. Grade 10 CGPA: 3.2 | Grade 12 result: 411 marks.",
+    gpa: "Grade 12: 411",
+    color: "#8b5cf6",
   },
 ];
 
@@ -142,11 +152,13 @@ export default function Education() {
                         {edu.period}
                       </span>
                       <p className="text-green-400 text-sm font-medium mt-2">
-                        GPA: {edu.gpa}
+                        {edu.gpa}
                       </p>
-                      <p className="text-purple-400 text-xs font-medium mt-1">
-                        🎓 Graduated 2025
-                      </p>
+                      {edu.degree.includes("Bachelor") && (
+                        <p className="text-purple-400 text-xs font-medium mt-1">
+                          🎓 Graduated June 2025
+                        </p>
+                      )}
                     </div>
                   </div>
                   <p className="text-gray-400 leading-relaxed">
