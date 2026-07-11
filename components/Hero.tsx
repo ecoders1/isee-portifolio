@@ -80,7 +80,7 @@ export default function Hero({ go }: Props) {
         <button onClick={() => go("contact")} className="btn-dark">
           contact me <ArrowRight size={15} />
         </button>
-        <a href="/cv.pdf" download="Isayas_Fikadu_CV.pdf" className="btn-outline">
+        <a href="/cv" target="_blank" rel="noopener noreferrer" className="btn-outline">
           Download CV
         </a>
       </motion.div>
