@@ -3,272 +3,203 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  LogOut, User, Briefcase, Mail, Code2,
-  GraduationCap, BarChart3, ExternalLink,
-  Settings, Home, FolderOpen,
+  FolderOpen, Mail, Code2, Eye,
+  BarChart3, Plus, MessageSquare, User, Settings,
+  ArrowRight, Clock,
 } from "lucide-react";
 
-const stats = [
-  { label: "Projects",    value: "20+", icon: FolderOpen,    color: "#3b82f6" },
-  { label: "Skills",      value: "15+", icon: Code2,         color: "#8b5cf6" },
-  { label: "Experience",  value: "3+ yrs", icon: Briefcase,  color: "#ec4899" },
-  { label: "CGPA",        value: "3.89", icon: GraduationCap, color: "#10b981" },
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  tags: string;
+  demo: string;
+  github: string;
+  emoji: string;
+}
+
+interface Message {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  date: string;
+  read: boolean;
+}
+
+const DEFAULT_PROJECTS: Project[] = [
+  { id:1, title:"Ethiopia Exit Exam App", category:"Web App", description:"Platform for Ethiopian university students to practice Exit Exams online.", tags:"Next.js,Supabase,TypeScript", demo:"https://ethio2.vercel.app", github:"https://github.com/ecoders1", emoji:"🎓" },
+  { id:2, title:"Apostolic Songs – Faarsaa", category:"Web App", description:"Afaan Oromo gospel songs app with audio player and offline support.", tags:"React,Firebase,Tailwind CSS", demo:"https://faarsaa.vercel.app", github:"https://github.com/ecoders1", emoji:"🎵" },
+  { id:3, title:"Online Exam System", category:"Web App", description:"Complete exam management system with Admin, Teacher, Student dashboards.", tags:"Next.js,MySQL,Node.js", demo:"", github:"https://github.com/ecoders1", emoji:"📝" },
+  { id:4, title:"Short-Term Training System", category:"Web App", description:"Training management platform for Rift Valley University Ambo Campus.", tags:"PHP,MySQL,Bootstrap", demo:"", github:"https://github.com/ecoders1", emoji:"🏫" },
 ];
 
-const quickLinks = [
-  { label: "Portfolio Home",    href: "/",                          icon: Home },
-  { label: "About Section",     href: "/#about",                    icon: User },
-  { label: "Projects Section",  href: "/#work",                     icon: FolderOpen },
-  { label: "Contact Section",   href: "/#contact",                  icon: Mail },
-  { label: "Exit Exam App",     href: "https://ethio2.vercel.app",  icon: ExternalLink },
-  { label: "Faarsaa App",       href: "https://faarsaa.vercel.app", icon: ExternalLink },
+const DEFAULT_MESSAGES: Message[] = [
+  { id:1, name:"Abebe Girma", email:"abebe@gmail.com", subject:"Website Development", message:"Hi Isayas, I need a business website for my company. Can you help me? I am based in Addis Ababa.", date:"2025-07-10", read:false },
+  { id:2, name:"Sara Tesfaye", email:"sara@gmail.com", subject:"Exit Exam App Feedback", message:"The exit exam app is really helpful for my studies. Thank you so much for building it!", date:"2025-07-09", read:true },
+  { id:3, name:"Mulatu Bekele", email:"mulatu@gmail.com", subject:"School Management System", message:"We need a complete school management system for our school. Please send me a quote.", date:"2025-07-08", read:false },
+  { id:4, name:"Tigist Alemu", email:"tigist@gmail.com", subject:"Collaboration Opportunity", message:"I am a UI designer and would like to collaborate on projects. Are you interested?", date:"2025-07-07", read:true },
+  { id:5, name:"Dawit Haile", email:"dawit@gmail.com", subject:"Portfolio Website", message:"I need a personal portfolio website similar to yours. What is your rate?", date:"2025-07-06", read:false },
 ];
 
-const profile = [
-  { label: "Full Name",   value: "Isayas Fikadu Bazabi" },
-  { label: "Email",       value: "iyasu4313@gmail.com" },
-  { label: "Phone",       value: "+251 94 313 3184" },
-  { label: "Telegram",    value: "@milkibn" },
-  { label: "GitHub",      value: "github.com/ecoders1" },
-  { label: "Location",    value: "Ambo, Ethiopia" },
-  { label: "Degree",      value: "B.Sc. Computer Science" },
-  { label: "University",  value: "Rift Valley University – Ambo Campus" },
-  { label: "Graduated",   value: "June 2025 (2017 E.C)" },
-  { label: "CGPA",        value: "3.89 / 4.00" },
-];
+const card: React.CSSProperties = { background:"#1a1a1a", border:"1px solid #222", borderRadius:14, padding:20 };
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const router = useRouter();
-  const [user, setUser] = useState("Admin");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [now, setNow] = useState("");
 
   useEffect(() => {
-    if (sessionStorage.getItem("admin_auth") !== "true") {
-      router.replace("/admin");
+    if (typeof window !== "undefined" && sessionStorage.getItem("admin_auth") !== "true") {
+      router.replace("/admin"); return;
     }
+    // Load data
+    try {
+      const p = localStorage.getItem("adminProjects");
+      setProjects(p ? JSON.parse(p) : DEFAULT_PROJECTS);
+    } catch { setProjects(DEFAULT_PROJECTS); }
+    try {
+      const m = localStorage.getItem("adminMessages");
+      setMessages(m ? JSON.parse(m) : DEFAULT_MESSAGES);
+    } catch { setMessages(DEFAULT_MESSAGES); }
+
+    // Date
+    const d = new Date();
+    setNow(d.toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" }));
   }, [router]);
 
-  const logout = () => {
-    sessionStorage.removeItem("admin_auth");
-    router.push("/admin");
-  };
+  const unread = messages.filter(m => !m.read).length;
+
+  const stats = [
+    { label:"Projects",  value: projects.length, icon: FolderOpen, color:"#3b82f6", bg:"rgba(59,130,246,0.12)" },
+    { label:"Messages",  value: messages.length,  icon: Mail,       color:"#8b5cf6", bg:"rgba(139,92,246,0.12)" },
+    { label:"Skills",    value:"15+",             icon: Code2,      color:"#ec4899", bg:"rgba(236,72,153,0.12)" },
+    { label:"Views",     value:"1.2k+",           icon: Eye,        color:"#10b981", bg:"rgba(16,185,129,0.12)" },
+  ];
+
+  const quickActions = [
+    { label:"Add Project",    icon: Plus,           action: () => router.push("/admin/projects") },
+    { label:"View Messages",  icon: MessageSquare,  action: () => router.push("/admin/messages") },
+    { label:"Edit Profile",   icon: User,           action: () => router.push("/admin/profile") },
+    { label:"Settings",       icon: Settings,       action: () => router.push("/admin/settings") },
+  ];
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#0a0a0f",
-      fontFamily: "system-ui, sans-serif",
-      color: "#f0f0f5",
-    }}>
-
-      {/* Sidebar */}
-      <aside style={{
-        position: "fixed", top: 0, left: 0, bottom: 0, width: 220,
-        background: "rgba(255,255,255,0.03)",
-        borderRight: "1px solid rgba(255,255,255,0.07)",
-        display: "flex", flexDirection: "column",
-        padding: "24px 0",
-        zIndex: 50,
-      }}>
-        {/* Logo */}
-        <div style={{ padding: "0 20px 24px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{
-              width: 36, height: 36, borderRadius: 10,
-              background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#fff", fontWeight: 700, fontSize: "0.85rem",
-            }}>IF</div>
+    <div>
+      {/* Header */}
+      <motion.div initial={{ opacity:0, y:-10 }} animate={{ opacity:1, y:0 }} style={{ marginBottom:28 }}>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:12 }}>
+          <div>
+            <h1 style={{ fontSize:"1.5rem", fontWeight:700, color:"#fff", margin:0, letterSpacing:"-0.02em" }}>
+              Welcome back, Isayas 👋
+            </h1>
+            <p style={{ color:"#666", fontSize:"0.85rem", margin:"4px 0 0", display:"flex", alignItems:"center", gap:6 }}>
+              <Clock size={13} />{now}
+            </p>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <div style={{ width:38, height:38, borderRadius:"50%", background:"linear-gradient(135deg,#3b82f6,#8b5cf6)", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontWeight:700, fontSize:"0.85rem" }}>IF</div>
             <div>
-              <p style={{ fontWeight: 700, fontSize: "0.9rem", color: "#fff" }}>Isayas.dev</p>
-              <p style={{ fontSize: "0.72rem", color: "#666" }}>Admin Panel</p>
+              <p style={{ fontSize:"0.85rem", fontWeight:600, color:"#fff", margin:0 }}>Isayas Fikadu</p>
+              <p style={{ fontSize:"0.72rem", color:"#555", margin:0 }}>Administrator</p>
             </div>
           </div>
         </div>
+      </motion.div>
 
-        {/* Nav */}
-        <nav style={{ flex: 1, padding: "16px 12px", display: "flex", flexDirection: "column", gap: 4 }}>
-          {[
-            { icon: BarChart3, label: "Dashboard",  active: true },
-            { icon: User,      label: "Profile",    active: false },
-            { icon: FolderOpen,label: "Projects",   active: false },
-            { icon: Mail,      label: "Messages",   active: false },
-            { icon: Settings,  label: "Settings",   active: false },
-          ].map(({ icon: Icon, label, active }) => (
-            <button
-              key={label}
-              style={{
-                display: "flex", alignItems: "center", gap: 10,
-                padding: "9px 12px", borderRadius: 10,
-                border: "none", cursor: "pointer", textAlign: "left",
-                background: active ? "rgba(59,130,246,0.15)" : "none",
-                color: active ? "#60a5fa" : "#888",
-                fontSize: "0.875rem", fontWeight: active ? 600 : 400,
-                transition: "all 0.15s",
-              }}
-              onMouseEnter={e => { if (!active) e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "#ccc"; }}
-              onMouseLeave={e => { if (!active) e.currentTarget.style.background = "none"; e.currentTarget.style.color = active ? "#60a5fa" : "#888"; }}
+      {/* Stat Cards */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))", gap:14, marginBottom:24 }}>
+        {stats.map(({ label, value, icon:Icon, color, bg }, i) => (
+          <motion.div key={label} initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ delay: i*0.07 }} style={card}>
+            <div style={{ width:40, height:40, borderRadius:10, background:bg, display:"flex", alignItems:"center", justifyContent:"center", marginBottom:14, color }}>
+              <Icon size={18} />
+            </div>
+            <p style={{ fontSize:"1.6rem", fontWeight:700, color:"#fff", margin:0, lineHeight:1 }}>{value}</p>
+            <p style={{ fontSize:"0.8rem", color:"#666", margin:"4px 0 0" }}>{label}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Quick Actions */}
+      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.25 }} style={{ ...card, marginBottom:24 }}>
+        <h2 style={{ fontSize:"0.95rem", fontWeight:600, color:"#fff", margin:"0 0 14px", display:"flex", alignItems:"center", gap:8 }}>
+          <BarChart3 size={15} style={{ color:"#3b82f6" }} /> Quick Actions
+        </h2>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(140px,1fr))", gap:10 }}>
+          {quickActions.map(({ label, icon:Icon, action }) => (
+            <button key={label} onClick={action} style={{
+              display:"flex", alignItems:"center", gap:8,
+              padding:"10px 14px", borderRadius:9,
+              border:"1px solid #2a2a2a", background:"#222",
+              color:"#ccc", fontSize:"0.85rem", cursor:"pointer",
+              transition:"all 0.15s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background="rgba(59,130,246,0.12)"; e.currentTarget.style.borderColor="rgba(59,130,246,0.3)"; e.currentTarget.style.color="#60a5fa"; }}
+              onMouseLeave={e => { e.currentTarget.style.background="#222"; e.currentTarget.style.borderColor="#2a2a2a"; e.currentTarget.style.color="#ccc"; }}
             >
-              <Icon size={16} /> {label}
+              <Icon size={14} />{label}
             </button>
           ))}
-        </nav>
-
-        {/* Logout */}
-        <div style={{ padding: "16px 12px", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-          <button
-            onClick={logout}
-            style={{
-              width: "100%", display: "flex", alignItems: "center", gap: 10,
-              padding: "9px 12px", borderRadius: 10,
-              border: "none", cursor: "pointer",
-              background: "rgba(248,113,113,0.1)",
-              color: "#f87171", fontSize: "0.875rem", fontWeight: 500,
-            }}
-          >
-            <LogOut size={16} /> Sign Out
-          </button>
         </div>
-      </aside>
+      </motion.div>
 
-      {/* Main content */}
-      <main style={{ marginLeft: 220, padding: "32px", minHeight: "100vh" }}>
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-          style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 36 }}
-        >
-          <div>
-            <h1 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#fff", marginBottom: 4, letterSpacing: "-0.02em" }}>
-              Welcome back, {user} 👋
-            </h1>
-            <p style={{ color: "#666", fontSize: "0.875rem" }}>Here&apos;s your portfolio overview</p>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18 }}>
+        {/* Recent Projects */}
+        <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.3 }} style={card}>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
+            <h2 style={{ fontSize:"0.95rem", fontWeight:600, color:"#fff", margin:0, display:"flex", alignItems:"center", gap:8 }}>
+              <FolderOpen size={15} style={{ color:"#3b82f6" }} /> Recent Projects
+            </h2>
+            <button onClick={() => router.push("/admin/projects")} style={{ background:"none", border:"none", color:"#3b82f6", cursor:"pointer", fontSize:"0.8rem", display:"flex", alignItems:"center", gap:4 }}>
+              View all <ArrowRight size={12} />
+            </button>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{
-              width: 38, height: 38, borderRadius: "50%",
-              background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#fff", fontWeight: 700, fontSize: "0.85rem",
-            }}>IF</div>
-            <div>
-              <p style={{ fontSize: "0.85rem", fontWeight: 600, color: "#fff" }}>Isayas Fikadu</p>
-              <p style={{ fontSize: "0.72rem", color: "#666" }}>Administrator</p>
-            </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+            {projects.slice(0, 3).map(p => (
+              <div key={p.id} style={{ display:"flex", alignItems:"flex-start", gap:10, padding:"10px 12px", borderRadius:9, background:"#222" }}>
+                <span style={{ fontSize:"1.2rem", flexShrink:0 }}>{p.emoji}</span>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <p style={{ fontSize:"0.85rem", fontWeight:600, color:"#e0e0e0", margin:0, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{p.title}</p>
+                  <p style={{ fontSize:"0.75rem", color:"#555", margin:"2px 0 0" }}>{p.category}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </motion.div>
 
-        {/* Stats */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16, marginBottom: 32 }}>
-          {stats.map(({ label, value, icon: Icon, color }, i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-              style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 16, padding: "20px 20px",
-              }}
-            >
-              <div style={{
-                width: 40, height: 40, borderRadius: 10,
-                background: `${color}20`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                marginBottom: 14, color,
-              }}>
-                <Icon size={18} />
-              </div>
-              <p style={{ fontSize: "1.6rem", fontWeight: 700, color: "#fff", lineHeight: 1 }}>{value}</p>
-              <p style={{ fontSize: "0.82rem", color: "#666", marginTop: 4 }}>{label}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-
-          {/* Profile info */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 16, padding: "24px",
-            }}
-          >
-            <h2 style={{ fontSize: "1rem", fontWeight: 600, color: "#fff", marginBottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
-              <User size={16} style={{ color: "#60a5fa" }} /> Profile Information
+        {/* Recent Messages */}
+        <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.35 }} style={card}>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
+            <h2 style={{ fontSize:"0.95rem", fontWeight:600, color:"#fff", margin:0, display:"flex", alignItems:"center", gap:8 }}>
+              <Mail size={15} style={{ color:"#8b5cf6" }} /> Recent Messages
+              {unread > 0 && <span style={{ background:"rgba(248,113,113,0.2)", color:"#f87171", borderRadius:20, padding:"1px 7px", fontSize:"0.7rem", fontWeight:600 }}>{unread} unread</span>}
             </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {profile.map(({ label, value }) => (
-                <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, paddingBottom: 10, borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                  <span style={{ fontSize: "0.8rem", color: "#666", flexShrink: 0 }}>{label}</span>
-                  <span style={{ fontSize: "0.82rem", color: "#ccc", textAlign: "right" }}>{value}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Quick links */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 16, padding: "24px",
-            }}
-          >
-            <h2 style={{ fontSize: "1rem", fontWeight: 600, color: "#fff", marginBottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
-              <ExternalLink size={16} style={{ color: "#8b5cf6" }} /> Quick Links
-            </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {quickLinks.map(({ label, href, icon: Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href.startsWith("http") ? "_blank" : "_self"}
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex", alignItems: "center", gap: 10,
-                    padding: "10px 14px", borderRadius: 10,
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                    color: "#bbb", textDecoration: "none",
-                    fontSize: "0.875rem", transition: "all 0.15s",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(59,130,246,0.1)"; e.currentTarget.style.color = "#60a5fa"; e.currentTarget.style.borderColor = "rgba(59,130,246,0.3)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.color = "#bbb"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}
-                >
-                  <Icon size={15} /> {label}
-                </a>
-              ))}
-            </div>
-
-            {/* Logout button */}
-            <button
-              onClick={logout}
-              style={{
-                marginTop: 20, width: "100%",
-                padding: "10px", borderRadius: 10,
-                border: "1px solid rgba(248,113,113,0.3)",
-                background: "rgba(248,113,113,0.08)",
-                color: "#f87171", fontSize: "0.875rem",
-                fontWeight: 500, cursor: "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-              }}
-            >
-              <LogOut size={15} /> Sign Out
+            <button onClick={() => router.push("/admin/messages")} style={{ background:"none", border:"none", color:"#8b5cf6", cursor:"pointer", fontSize:"0.8rem", display:"flex", alignItems:"center", gap:4 }}>
+              View all <ArrowRight size={12} />
             </button>
-          </motion.div>
-        </div>
-      </main>
-
-      {/* Responsive for mobile sidebar */}
-      <style>{`
-        @media (max-width: 768px) {
-          aside { display: none !important; }
-          main { margin-left: 0 !important; padding: 20px !important; }
-        }
-      `}</style>
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+            {messages.slice(0, 3).map(m => (
+              <div key={m.id} style={{ display:"flex", alignItems:"flex-start", gap:10, padding:"10px 12px", borderRadius:9, background:"#222" }}>
+                <div style={{ width:30, height:30, borderRadius:"50%", background:"linear-gradient(135deg,#3b82f6,#8b5cf6)", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontSize:"0.75rem", fontWeight:700, flexShrink:0 }}>
+                  {m.name[0]}
+                </div>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+                    <p style={{ fontSize:"0.85rem", fontWeight:600, color:"#e0e0e0", margin:0 }}>{m.name}</p>
+                    {!m.read && <span style={{ width:6, height:6, borderRadius:"50%", background:"#3b82f6", display:"inline-block", flexShrink:0 }} />}
+                  </div>
+                  <p style={{ fontSize:"0.75rem", color:"#555", margin:"2px 0 0", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{m.subject}</p>
+                </div>
+                <span style={{ fontSize:"0.7rem", color:"#444", flexShrink:0 }}>{m.date.slice(5)}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
