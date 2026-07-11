@@ -1,143 +1,132 @@
 "use client";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { User, MapPin, GraduationCap, Heart } from "lucide-react";
+import { Code2, GraduationCap, Briefcase } from "lucide-react";
+import type { SectionId } from "@/app/page";
 
-const info = [
-  { icon: User, label: "Full Name", value: "Isayas Fikadu Bazabi" },
-  { icon: MapPin, label: "Address", value: "Ambo, Ethiopia" },
-  { icon: GraduationCap, label: "Degree", value: "B.Sc. Computer Science – CGPA 3.89" },
-  { icon: Heart, label: "Passion", value: "Building impactful software" },
+interface Props { go: (s: SectionId) => void; }
+
+const cards = [
+  {
+    icon: Code2,
+    title: "Languages",
+    body: "HTML, CSS, JavaScript, TypeScript, React, Next.js, PHP, Node.js",
+  },
+  {
+    icon: GraduationCap,
+    title: "Education",
+    body: "B.Sc. Computer Science — RVU Ambo Campus, CGPA 3.89, Graduated 2025",
+  },
+  {
+    icon: Briefcase,
+    title: "Projects",
+    body: "Built 20+ real-world projects including exam platforms, school systems and web apps",
+  },
 ];
 
-export default function About() {
-  const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
+const tools = ["Git & GitHub", "Vercel", "Supabase", "Firebase", "PostgreSQL", "MongoDB", "Figma", "Postman", "VS Code"];
 
+export default function About({ go }: Props) {
   return (
-    <section id="about" className="section-padding" ref={ref}>
-      <div className="max-w-7xl mx-auto">
-        {/* Section header */}
+    <section style={{ maxWidth: 1000, margin: "0 auto", padding: "60px 24px" }}>
+
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+        style={{ marginBottom: 56 }}
+      >
+        <p className="section-tag" style={{ marginBottom: 10 }}>Introduction</p>
+        <h2 className="section-title" style={{ marginBottom: 0 }}>About me<span style={{ color: "var(--accent)" }}>.</span></h2>
+      </motion.div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 32, alignItems: "start" }}>
+
+        {/* Photo */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
+          style={{
+            borderRadius: 20,
+            overflow: "hidden",
+            aspectRatio: "3/4",
+            maxWidth: 340,
+            background: "var(--bg2)",
+            border: "1px solid var(--border)",
+          }}
         >
-          <span className="text-blue-400 font-medium text-sm uppercase tracking-widest">
-            Get To Know Me
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mt-2">
-            About <span className="gradient-text">Me</span>
-          </h2>
-          <div className="w-20 h-1 mx-auto mt-4 rounded-full" style={{ background: "linear-gradient(90deg, #3b82f6, #8b5cf6)" }} />
+          <img
+            src="/isayas.jpg"
+            alt="Isayas Fikadu"
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+            onError={e => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+              const p = e.currentTarget.parentElement as HTMLDivElement;
+              p.style.display = "flex";
+              p.style.alignItems = "center";
+              p.style.justifyContent = "center";
+              p.innerHTML = '<span style="font-size:5rem">👨‍💻</span>';
+            }}
+          />
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Image/Card */}
-          <motion.div
-            className="flex justify-center"
-            initial={{ opacity: 0, x: -40 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            <div className="relative">
-              <div
-                className="w-72 h-72 sm:w-80 sm:h-80 rounded-2xl overflow-hidden"
-              >
-                <div
-                className="w-full h-full overflow-hidden rounded-2xl"
-                style={{
-                  border: "1px solid rgba(59,130,246,0.3)",
-                  boxShadow: "0 0 40px rgba(59,130,246,0.2)",
-                }}
-              >
-                <img
-                  src="/isayas.jpg"
-                  alt="Isayas Fikadu"
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-              </div>
+        {/* Text */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}
+          style={{ display: "flex", flexDirection: "column", gap: 24 }}
+        >
+          <p className="section-sub">
+            I am an experienced Full Stack Developer from Ambo, Ethiopia. Throughout my career I
+            have built web applications, examination platforms, training systems and more —
+            delivering clean, high-performance software for real users.
+          </p>
+          <p className="section-sub">
+            I graduated with a B.Sc. in Computer Science from Rift Valley University (CGPA 3.89)
+            and bring strong skills across the entire stack — from responsive UIs to robust APIs
+            and database design.
+          </p>
 
-              {/* Decorative elements */}
+          {/* Info cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12 }}>
+            {cards.map(({ icon: Icon, title, body }, i) => (
               <motion.div
-                className="absolute -top-4 -right-4 w-20 h-20 rounded-xl glass flex items-center justify-center text-3xl"
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
+                key={title}
+                className="card"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.07 }}
+                style={{ padding: "18px 16px" }}
               >
-                💻
+                <div style={{
+                  width: 36, height: 36, borderRadius: 10,
+                  background: "var(--bg2)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  marginBottom: 12,
+                  color: "var(--accent)",
+                }}>
+                  <Icon size={17} />
+                </div>
+                <p style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--fg)", marginBottom: 6 }}>{title}</p>
+                <p style={{ fontSize: "0.8rem", color: "var(--fg2)", lineHeight: 1.5 }}>{body}</p>
               </motion.div>
-              <motion.div
-                className="absolute -bottom-4 -left-4 w-16 h-16 rounded-xl glass flex items-center justify-center text-2xl"
-                animate={{ rotate: [0, -5, 5, 0] }}
-                transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-              >
-                🚀
-              </motion.div>
-            </div>
-          </motion.div>
+            ))}
+          </div>
 
-          {/* Right: Text */}
-          <motion.div
-            className="flex flex-col gap-6"
-            initial={{ opacity: 0, x: 40 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Hello! I&apos;m{" "}
-                <span className="gradient-text">Isayas Fikadu</span>
-              </h3>
-              <p className="text-gray-400 leading-relaxed mb-4">
-                A passionate Full Stack Developer from Ethiopia. I enjoy
-                creating beautiful, responsive, and high-performance websites
-                and web applications using modern technologies.
-              </p>
-              <p className="text-gray-400 leading-relaxed">
-                I love solving real-world problems through software development
-                and continuously learning new technologies. I graduated with a
-                Bachelor&apos;s in Computer Science from Rift Valley
-                University, Ambo Campus in 2025.
-              </p>
-            </div>
-
-            {/* Info grid */}
-            <div className="grid sm:grid-cols-2 gap-3">
-              {info.map(({ icon: Icon, label, value }, i) => (
-                <motion.div
-                  key={label}
-                  className="glass rounded-xl p-4 flex items-center gap-3 card-hover"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.4 + i * 0.1 }}
-                >
-                  <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style={{
-                      background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-                    }}
-                  >
-                    <Icon size={16} className="text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500">{label}</p>
-                    <p className="text-sm font-medium text-white">{value}</p>
-                  </div>
-                </motion.div>
+          {/* Tools */}
+          <div>
+            <p style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--fg3)", marginBottom: 12 }}>
+              Tools I use
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {tools.map(t => (
+                <span key={t} style={{ padding: "4px 12px", borderRadius: 99, border: "1.5px solid var(--border)", fontSize: "0.78rem", color: "var(--fg2)", background: "var(--card)" }}>
+                  {t}
+                </span>
               ))}
             </div>
+          </div>
 
-            <motion.a
-              href="#contact"
-              className="btn-primary self-start flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Let&apos;s Work Together →
-            </motion.a>
-          </motion.div>
-        </div>
+          <button onClick={() => go("contact")} className="btn-dark" style={{ alignSelf: "flex-start" }}>
+            Get in touch →
+          </button>
+        </motion.div>
       </div>
     </section>
   );

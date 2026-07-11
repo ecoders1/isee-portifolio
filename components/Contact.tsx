@@ -1,76 +1,16 @@
 "use client";
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import emailjs from "@emailjs/browser";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Github,
-  Send,
-  CheckCircle,
-  AlertCircle,
-  Loader2,
-} from "lucide-react";
-
-const contactInfo = [
-  {
-    icon: Mail,
-    label: "Email",
-    value: "iyasu4313@gmail.com",
-    href: "mailto:iyasu4313@gmail.com",
-    color: "#3b82f6",
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "+251 94 313 3184",
-    href: "tel:+251943133184",
-    color: "#8b5cf6",
-  },
-  {
-    icon: MapPin,
-    label: "Location",
-    value: "Ethiopia",
-    href: "#",
-    color: "#ec4899",
-  },
-];
-
-const socialLinks = [
-  {
-    icon: Github,
-    label: "GitHub",
-    href: "https://github.com/ecoders1",
-    color: "#fff",
-    bg: "rgba(255,255,255,0.1)",
-  },
-  {
-    label: "Telegram",
-    href: "https://t.me/milkibn",
-    color: "#229ED9",
-    bg: "rgba(34,158,217,0.1)",
-    svgPath:
-      "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.94c-.12.57-.45.71-.91.44l-2.52-1.86-1.22 1.17c-.13.14-.25.25-.52.25l.18-2.59 4.7-4.25c.2-.18-.04-.28-.32-.1L7.46 14.6l-2.46-.77c-.54-.17-.55-.54.11-.8l9.62-3.71c.44-.16.83.11.91.48z",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    href: "mailto:iyasu4313@gmail.com",
-    color: "#3b82f6",
-    bg: "rgba(59,130,246,0.1)",
-  },
-];
+import { ArrowRight, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function Contact() {
-  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<Status>("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const send = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef.current) return;
     setStatus("loading");
@@ -90,198 +30,98 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section-padding" ref={ref}>
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="text-blue-400 font-medium text-sm uppercase tracking-widest">
-            Get In Touch
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mt-2">
-            Contact <span className="gradient-text">Me</span>
-          </h2>
-          <div
-            className="w-20 h-1 mx-auto mt-4 rounded-full"
-            style={{ background: "linear-gradient(90deg, #3b82f6, #8b5cf6)" }}
-          />
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
-            Have a project in mind? Ready to collaborate? Feel free to reach
-            out — I&apos;ll get back to you as soon as possible.
-          </p>
-        </motion.div>
+    <section style={{ maxWidth: 780, margin: "0 auto", padding: "60px 24px" }}>
 
-        <div className="grid lg:grid-cols-5 gap-8">
-          {/* Left: Info */}
-          <motion.div
-            className="lg:col-span-2 flex flex-col gap-5"
-            initial={{ opacity: 0, x: -30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.2 }}
-          >
-            {contactInfo.map(({ icon: Icon, label, value, href, color }) => (
-              <motion.a
-                key={label}
-                href={href}
-                className="glass rounded-2xl p-5 flex items-center gap-4 card-hover group"
-                whileHover={{ x: 5 }}
-              >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background: `${color}20`,
-                    border: `1px solid ${color}40`,
-                  }}
-                >
-                  <Icon size={20} style={{ color }} />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">{label}</p>
-                  <p className="text-white font-medium group-hover:text-blue-400 transition-colors">
-                    {value}
-                  </p>
-                </div>
-              </motion.a>
-            ))}
+      {/* Header */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", marginBottom: 52 }}>
+        <p className="section-tag" style={{ marginBottom: 10 }}>Connect with me</p>
+        <h2 className="section-title" style={{ marginBottom: 16 }}>
+          Get in touch<span style={{ color: "var(--accent)" }}>.</span>
+        </h2>
+        <p className="section-sub" style={{ margin: "0 auto" }}>
+          I&apos;d love to hear from you! If you have any questions, project ideas or just want
+          to say hello, use the form below.
+        </p>
+      </motion.div>
 
-            {/* Social links */}
-            <div className="glass rounded-2xl p-5">
-              <p className="text-sm text-gray-400 mb-4 font-medium">
-                Connect with me
-              </p>
-              <div className="flex gap-3">
-                {socialLinks.map(({ label, href, color, bg, icon: Icon, svgPath }) => (
-                  <motion.a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="w-12 h-12 rounded-xl flex items-center justify-center transition-all"
-                    style={{ background: bg, border: `1px solid ${color}30` }}
-                    whileHover={{ scale: 1.15, y: -3 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {svgPath ? (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill={color}>
-                        <path d={svgPath} />
-                      </svg>
-                    ) : Icon ? (
-                      <Icon size={20} color={color} />
-                    ) : null}
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-
-            {/* Availability badge */}
-            <div className="glass rounded-2xl p-5 flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
-              <div>
-                <p className="text-white text-sm font-medium">Available for work</p>
-                <p className="text-gray-500 text-xs">Open to freelance & full-time roles</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right: Form */}
-          <motion.div
-            className="lg:col-span-3"
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.3 }}
-          >
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              className="glass rounded-2xl p-8 flex flex-col gap-5"
-            >
-              <div className="grid sm:grid-cols-2 gap-5">
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm text-gray-400 font-medium">Full Name *</label>
-                  <input
-                    type="text"
-                    name="user_name"
-                    required
-                    placeholder="Your full name"
-                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-blue-500/5 transition-all"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm text-gray-400 font-medium">Email Address *</label>
-                  <input
-                    type="email"
-                    name="user_email"
-                    required
-                    placeholder="your@email.com"
-                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-blue-500/5 transition-all"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400 font-medium">Subject *</label>
-                <input
-                  type="text"
-                  name="subject"
-                  required
-                  placeholder="What is this about?"
-                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-blue-500/5 transition-all"
-                />
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400 font-medium">Message *</label>
-                <textarea
-                  name="message"
-                  required
-                  rows={6}
-                  placeholder="Tell me about your project..."
-                  className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-blue-500/5 transition-all resize-none"
-                />
-              </div>
-
-              {status === "success" && (
-                <motion.div
-                  className="flex items-center gap-2 text-green-400 text-sm bg-green-400/10 rounded-xl px-4 py-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <CheckCircle size={16} />
-                  Message sent! I&apos;ll get back to you soon.
-                </motion.div>
-              )}
-              {status === "error" && (
-                <motion.div
-                  className="flex items-center gap-2 text-red-400 text-sm bg-red-400/10 rounded-xl px-4 py-3"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <AlertCircle size={16} />
-                  Failed to send. Email me directly at iyasu4313@gmail.com
-                </motion.div>
-              )}
-
-              <motion.button
-                type="submit"
-                disabled={status === "loading"}
-                className="btn-primary flex items-center justify-center gap-2 disabled:opacity-70"
-                whileHover={status !== "loading" ? { scale: 1.02 } : {}}
-                whileTap={status !== "loading" ? { scale: 0.98 } : {}}
-              >
-                {status === "loading" ? (
-                  <><Loader2 size={16} className="animate-spin" /> Sending...</>
-                ) : (
-                  <><Send size={16} /> Send Message</>
-                )}
-              </motion.button>
-            </form>
-          </motion.div>
+      {/* Form */}
+      <motion.form
+        ref={formRef}
+        onSubmit={send}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        style={{ display: "flex", flexDirection: "column", gap: 16 }}
+      >
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <input className="field" name="user_name"  required placeholder="Enter your name" />
+          <input className="field" name="user_email" required type="email" placeholder="Enter your email" />
         </div>
-      </div>
+
+        <input className="field" name="subject" required placeholder="Subject" />
+
+        <textarea
+          className="field"
+          name="message"
+          required
+          rows={7}
+          placeholder="Enter your message"
+          style={{ resize: "vertical" }}
+        />
+
+        {status === "success" && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            style={{ display: "flex", alignItems: "center", gap: 8, color: "#16a34a", fontSize: "0.9rem" }}>
+            <CheckCircle size={16} /> Message sent! I&apos;ll get back to you soon.
+          </motion.div>
+        )}
+        {status === "error" && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            style={{ display: "flex", alignItems: "center", gap: 8, color: "#dc2626", fontSize: "0.9rem" }}>
+            <AlertCircle size={16} /> Failed to send. Email me at iyasu4313@gmail.com
+          </motion.div>
+        )}
+
+        <div style={{ textAlign: "center", marginTop: 4 }}>
+          <button type="submit" disabled={status === "loading"} className="btn-dark" style={{ minWidth: 180, justifyContent: "center" }}>
+            {status === "loading"
+              ? <><Loader2 size={15} style={{ animation: "spin 1s linear infinite" }} /> Sending...</>
+              : <>Submit now <ArrowRight size={15} /></>
+            }
+          </button>
+        </div>
+      </motion.form>
+
+      {/* Contact info strip */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+        style={{
+          marginTop: 48,
+          padding: "24px",
+          borderRadius: 16,
+          border: "1.5px solid var(--border)",
+          background: "var(--bg2)",
+          display: "flex", flexWrap: "wrap", gap: 24, justifyContent: "center",
+        }}
+      >
+        {[
+          { label: "Email",    value: "iyasu4313@gmail.com",     href: "mailto:iyasu4313@gmail.com" },
+          { label: "Phone",    value: "+251 94 313 3184",         href: "tel:+251943133184" },
+          { label: "Telegram", value: "@milkibn",                 href: "https://t.me/milkibn" },
+          { label: "GitHub",   value: "github.com/ecoders1",      href: "https://github.com/ecoders1" },
+          { label: "Location", value: "Ambo, Ethiopia",           href: "#" },
+        ].map(({ label, value, href }) => (
+          <div key={label} style={{ textAlign: "center" }}>
+            <p style={{ fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--fg3)", marginBottom: 4 }}>{label}</p>
+            <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
+              style={{ fontSize: "0.88rem", color: "var(--fg)", fontWeight: 500, textDecoration: "none" }}>
+              {value}
+            </a>
+          </div>
+        ))}
+      </motion.div>
+
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </section>
   );
 }

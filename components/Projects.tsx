@@ -1,240 +1,165 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { ExternalLink, Github, Globe } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import type { SectionId } from "@/app/page";
+
+interface Props { go: (s: SectionId) => void; }
 
 const projects = [
   {
-    title: "Ethiopia Exit Exam Web App",
-    description:
-      "A platform that helps Ethiopian university students practice Exit Exams online with categorized departments and exam questions. Features real-time scoring, progress tracking, and detailed analytics.",
-    tags: ["Next.js", "Supabase", "Vercel", "TypeScript"],
+    title: "Ethiopia Exit Exam App",
     category: "Web App",
-    color: "#3b82f6",
+    description: "A platform helping Ethiopian university students practice Exit Exams online with department categories, real-time scoring and analytics.",
+    tags: ["Next.js", "Supabase", "TypeScript"],
+    demo: "https://ethio2.vercel.app",
+    bg: "#e8f0fe",
+    bgDark: "#1a2340",
     emoji: "🎓",
-    links: { demo: "https://ethio2.vercel.app", github: "https://github.com/ecoders1" },
   },
   {
-    title: "Apostolic Songs – Afaan Oromo",
-    description:
-      "Offline and online Afaan Oromo gospel songs application with search, playlist, download, and audio player features. Supports both online streaming and offline mode.",
-    tags: ["React", "Firebase", "Audio API", "Tailwind CSS"],
+    title: "Apostolic Songs – Faarsaa",
     category: "Web App",
-    color: "#8b5cf6",
+    description: "Afaan Oromo gospel songs app with search, playlist, audio player and offline support for mobile and desktop users.",
+    tags: ["React", "Firebase", "Tailwind CSS"],
+    demo: "https://faarsaa.vercel.app",
+    bg: "#f0e8fe",
+    bgDark: "#201a40",
     emoji: "🎵",
-    links: { demo: "https://faarsaa.vercel.app", github: "https://github.com/ecoders1" },
   },
   {
     title: "Online Exam System",
-    description:
-      "Complete online examination management system for schools with Admin, Teacher, and Student dashboards. Includes automated grading, analytics, and report generation.",
-    tags: ["Next.js", "MySQL", "Node.js", "TypeScript"],
     category: "Web App",
-    color: "#ec4899",
+    description: "Complete exam management system with Admin, Teacher and Student dashboards, automated grading and report generation.",
+    tags: ["Next.js", "MySQL", "Node.js"],
+    demo: "#",
+    bg: "#fde8ee",
+    bgDark: "#401a22",
     emoji: "📝",
-    links: { demo: "#", github: "https://github.com/ecoders1" },
   },
   {
-    title: "Web-Based Short-Term Training System",
-    description:
-      "Training management system for Rift Valley University Ambo Campus with course management, certificate generation, trainer and trainee management.",
-    tags: ["PHP", "MySQL", "Bootstrap", "JavaScript"],
+    title: "Short-Term Training System",
     category: "Web App",
-    color: "#10b981",
+    description: "Training management platform for Rift Valley University with course management, certificate generation and trainee tracking.",
+    tags: ["PHP", "MySQL", "Bootstrap"],
+    demo: "#",
+    bg: "#e8fef0",
+    bgDark: "#1a4025",
     emoji: "🏫",
-    links: { demo: "#", github: "https://github.com/ecoders1" },
   },
 ];
 
-const categories = ["All", "Web App", "Mobile App"];
+const cats = ["All", "Web App", "Mobile App"];
 
-export default function Projects() {
+export default function Projects({ go }: Props) {
   const [filter, setFilter] = useState("All");
-  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const [shown, setShown] = useState(4);
 
-  const filtered =
-    filter === "All"
-      ? projects
-      : projects.filter((p) => p.category === filter);
+  const filtered = filter === "All" ? projects : projects.filter(p => p.category === filter);
+  const visible = filtered.slice(0, shown);
 
   return (
-    <section
-      id="projects"
-      className="section-padding"
-      style={{ background: "rgba(10,10,25,0.8)" }}
-      ref={ref}
-    >
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="text-blue-400 font-medium text-sm uppercase tracking-widest">
-            Portfolio
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mt-2">
-            Featured <span className="gradient-text">Projects</span>
-          </h2>
-          <div
-            className="w-20 h-1 mx-auto mt-4 rounded-full"
-            style={{ background: "linear-gradient(90deg, #3b82f6, #8b5cf6)" }}
-          />
-        </motion.div>
+    <section style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 24px" }}>
 
-        {/* Filter tabs */}
-        <motion.div
-          className="flex justify-center gap-3 mb-10 flex-wrap"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.2 }}
-        >
-          {categories.map((cat) => (
-            <motion.button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                filter === cat ? "text-white" : "glass text-gray-400 hover:text-white"
-              }`}
-              style={
-                filter === cat
-                  ? { background: "linear-gradient(135deg, #3b82f6, #8b5cf6)" }
-                  : {}
-              }
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+      {/* Header */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: "center", marginBottom: 48 }}>
+        <p className="section-tag" style={{ marginBottom: 10 }}>My portfolio</p>
+        <h2 className="section-title" style={{ marginBottom: 16 }}>My latest work<span style={{ color: "var(--accent)" }}>.</span></h2>
+        <p className="section-sub" style={{ margin: "0 auto 28px" }}>
+          Welcome to my portfolio! A collection of projects showcasing my expertise in full-stack development.
+        </p>
+
+        {/* Filters */}
+        <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+          {cats.map(c => (
+            <button
+              key={c}
+              onClick={() => { setFilter(c); setShown(4); }}
+              style={{
+                padding: "6px 18px", borderRadius: 99,
+                border: "1.5px solid",
+                borderColor: filter === c ? "var(--fg)" : "var(--border)",
+                background: filter === c ? "var(--fg)" : "none",
+                color: filter === c ? "var(--bg)" : "var(--fg2)",
+                fontSize: "0.85rem", fontWeight: 500, cursor: "pointer",
+                transition: "all 0.2s",
+              }}
             >
-              {cat}
-            </motion.button>
+              {c}
+            </button>
           ))}
-        </motion.div>
+        </div>
+      </motion.div>
 
-        {/* Project grid */}
-        <motion.div layout className="grid sm:grid-cols-2 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((project, i) => (
-              <motion.div
-                key={project.title}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: i * 0.1 }}
-                className="glass rounded-2xl overflow-hidden card-hover group"
-              >
-                {/* Card header */}
-                <div
-                  className="h-48 flex items-center justify-center relative overflow-hidden"
-                  style={{
-                    background: `linear-gradient(135deg, ${project.color}20, ${project.color}08)`,
-                    borderBottom: `1px solid ${project.color}20`,
-                  }}
-                >
-                  <motion.span
-                    className="text-7xl"
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    {project.emoji}
-                  </motion.span>
-
-                  <span
-                    className="absolute top-4 right-4 text-xs font-medium px-3 py-1 rounded-full"
+      {/* Grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16 }}>
+        <AnimatePresence mode="popLayout">
+          {visible.map((p, i) => (
+            <motion.div
+              key={p.title}
+              layout
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ delay: i * 0.06 }}
+              className="card"
+              style={{ overflow: "hidden" }}
+            >
+              {/* Image area */}
+              <div style={{
+                height: 180,
+                background: `var(--bg2)`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "4.5rem",
+                position: "relative",
+              }}>
+                {p.emoji}
+                {p.demo !== "#" && (
+                  <a
+                    href={p.demo} target="_blank" rel="noopener noreferrer"
                     style={{
-                      background: `${project.color}25`,
-                      color: project.color,
-                      border: `1px solid ${project.color}40`,
+                      position: "absolute", bottom: 10, right: 10,
+                      width: 36, height: 36, borderRadius: "50%",
+                      background: "var(--fg)", color: "var(--bg)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      textDecoration: "none",
                     }}
+                    aria-label="Open project"
                   >
-                    {project.category}
-                  </span>
-
-                  {/* Hover overlay with live links */}
-                  <div
-                    className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ background: "rgba(0,0,0,0.75)" }}
-                  >
-                    {project.links.demo !== "#" && (
-                      <motion.a
-                        href={project.links.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg"
-                        style={{ background: project.color }}
-                        whileHover={{ scale: 1.15 }}
-                        aria-label="Live Demo"
-                      >
-                        <Globe size={18} />
-                      </motion.a>
-                    )}
-                    <motion.a
-                      href={project.links.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-12 h-12 rounded-full glass flex items-center justify-center text-white"
-                      whileHover={{ scale: 1.15 }}
-                      aria-label="GitHub"
-                    >
-                      <Github size={18} />
-                    </motion.a>
-                  </div>
+                    <ArrowUpRight size={16} />
+                  </a>
+                )}
+              </div>
+              {/* Body */}
+              <div style={{ padding: "16px 18px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+                  <h3 style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--fg)" }}>{p.title}</h3>
                 </div>
-
-                {/* Card body */}
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-2 py-1 rounded-md"
-                        style={{
-                          background: `${project.color}15`,
-                          color: project.color,
-                          border: `1px solid ${project.color}30`,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-4">
-                    {project.links.demo !== "#" ? (
-                      <a
-                        href={project.links.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors font-medium"
-                      >
-                        <ExternalLink size={14} /> Live Demo
-                      </a>
-                    ) : (
-                      <span className="flex items-center gap-1 text-sm text-gray-600 cursor-not-allowed">
-                        <ExternalLink size={14} /> Coming Soon
-                      </span>
-                    )}
-                    <a
-                      href={project.links.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors"
-                    >
-                      <Github size={14} /> Source Code
-                    </a>
-                  </div>
+                <p style={{ fontSize: "0.75rem", color: "var(--fg3)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>{p.category}</p>
+                <p style={{ fontSize: "0.82rem", color: "var(--fg2)", lineHeight: 1.55, marginBottom: 12 }}>{p.description}</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {p.tags.map(t => (
+                    <span key={t} style={{ padding: "3px 10px", borderRadius: 99, border: "1px solid var(--border)", fontSize: "0.72rem", color: "var(--fg3)" }}>{t}</span>
+                  ))}
                 </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
+
+      {/* Show more */}
+      {visible.length < filtered.length && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ textAlign: "center", marginTop: 36 }}>
+          <button
+            onClick={() => setShown(s => s + 4)}
+            className="btn-outline"
+            style={{ padding: "10px 32px" }}
+          >
+            Show more →
+          </button>
+        </motion.div>
+      )}
     </section>
   );
 }
