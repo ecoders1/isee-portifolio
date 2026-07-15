@@ -105,7 +105,7 @@ export default function CVPage() {
             border: "3px solid #1a3a6e", flexShrink: 0,
           }}>
             <img
-              src="/isayas.jpg"
+              src="/isayas-web.png"
               alt="Isayas Fikadu"
               style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
             />

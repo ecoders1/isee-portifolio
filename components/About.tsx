@@ -53,7 +53,7 @@ export default function About({ go }: Props) {
           }}
         >
           <img
-            src="/isayas.jpg"
+            src="/isayas-web.png"
             alt="Isayas Fikadu"
             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
             onError={e => {
