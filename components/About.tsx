@@ -40,28 +40,34 @@ export default function About({ go }: Props) {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 32, alignItems: "start" }}>
 
-        {/* Photo */}
+        {/* Photo — full display, no crop */}
         <motion.div
           initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
           style={{
             borderRadius: 20,
             overflow: "hidden",
-            aspectRatio: "3/4",
-            maxWidth: 340,
             background: "var(--bg2)",
             border: "1px solid var(--border)",
+            maxWidth: 420,
+            width: "100%",
           }}
         >
           <img
             src="/isayas-web.png"
-            alt="Isayas Fikadu"
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+            alt="Isayas Fikadu – Full Stack Developer"
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+              objectFit: "contain",
+            }}
             onError={e => {
               (e.currentTarget as HTMLImageElement).style.display = "none";
               const p = e.currentTarget.parentElement as HTMLDivElement;
               p.style.display = "flex";
               p.style.alignItems = "center";
               p.style.justifyContent = "center";
+              p.style.minHeight = "300px";
               p.innerHTML = '<span style="font-size:5rem">👨‍💻</span>';
             }}
           />
