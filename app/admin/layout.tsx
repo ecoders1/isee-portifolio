@@ -56,11 +56,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Logo */}
         <div style={{ padding: "20px 18px 16px", borderBottom: "1px solid #222", display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{
-            width: 34, height: 34, borderRadius: 9,
-            background: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            color: "#fff", fontWeight: 700, fontSize: "0.8rem", flexShrink: 0,
-          }}>IF</div>
+            width: 34, height: 34, borderRadius: "50%",
+            overflow: "hidden", flexShrink: 0,
+            border: "2px solid #3b82f6",
+          }}>
+            <img src="/isayas.jpg" alt="Isayas" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+          </div>
           <div>
             <p style={{ fontWeight: 700, fontSize: "0.9rem", color: "#fff", lineHeight: 1, margin: 0 }}>Isayas.dev</p>
             <p style={{ fontSize: "0.7rem", color: "#555", margin: 0 }}>Admin Panel</p>
@@ -119,7 +120,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         alignItems: "center", justifyContent: "space-between",
       }} className="admin-topbar">
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 30, height: 30, borderRadius: 8, background: "linear-gradient(135deg,#3b82f6,#8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 700, fontSize: "0.75rem" }}>IF</div>
+          <div style={{ width: 30, height: 30, borderRadius: "50%", overflow: "hidden", border: "2px solid #3b82f6" }}>
+            <img src="/isayas.jpg" alt="Isayas" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+          </div>
           <span style={{ fontWeight: 700, color: "#fff", fontSize: "0.9rem" }}>Isayas.dev</span>
         </div>
         <button onClick={() => setOpen(o => !o)} style={{ background: "none", border: "none", color: "#888", cursor: "pointer", padding: 4 }}>

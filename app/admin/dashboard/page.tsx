@@ -101,7 +101,9 @@ export default function DashboardPage() {
             </p>
           </div>
           <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-            <div style={{ width:38, height:38, borderRadius:"50%", background:"linear-gradient(135deg,#3b82f6,#8b5cf6)", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff", fontWeight:700, fontSize:"0.85rem" }}>IF</div>
+            <div style={{ width:38, height:38, borderRadius:"50%", overflow:"hidden", border:"2px solid #3b82f6", flexShrink:0 }}>
+              <img src="/isayas.jpg" alt="Isayas Fikadu" style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"top" }} />
+            </div>
             <div>
               <p style={{ fontSize:"0.85rem", fontWeight:600, color:"#fff", margin:0 }}>Isayas Fikadu</p>
               <p style={{ fontSize:"0.72rem", color:"#555", margin:0 }}>Administrator</p>

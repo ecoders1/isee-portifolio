@@ -98,14 +98,18 @@ export default function CVPage() {
               ))}
             </div>
           </div>
-          {/* Avatar placeholder */}
+          {/* Avatar */}
           <div style={{
             width: 100, height: 100, borderRadius: "50%",
-            background: "linear-gradient(135deg,#1a3a6e,#3b82f6)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            color: "#fff", fontSize: "1.6rem", fontWeight: 700,
+            overflow: "hidden",
             border: "3px solid #1a3a6e", flexShrink: 0,
-          }}>IF</div>
+          }}>
+            <img
+              src="/isayas.jpg"
+              alt="Isayas Fikadu"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+            />
+          </div>
         </div>
 
         {/* Career Objective */}
