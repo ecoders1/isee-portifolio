@@ -6,16 +6,7 @@ import type { SectionId } from "@/app/page";
 
 interface Props { go: (s: SectionId) => void; }
 
-const tools = ["React", "Next.js", "TypeScript", "Node.js", "Tailwind CSS", "Supabase", "Firebase", "PostgreSQL", "Figma", "Git"];
-
 const HEADLINE = "full stack developer\nbased in Ethiopia";
-
-const stats = [
-  { value: "3+",  label: "Years exp." },
-  { value: "20+", label: "Projects" },
-  { value: "10+", label: "Clients" },
-  { value: "3.89", label: "CGPA" },
-];
 
 const socials = [
   { icon: Github,   href: "https://github.com/ecoders1",                    label: "GitHub" },
@@ -167,45 +158,6 @@ export default function Hero({ go }: Props) {
             <Icon size={16} />
           </a>
         ))}
-      </motion.div>
-
-      {/* Stats row */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-        style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 52,
-          padding: "20px", borderRadius: 16, border: "1.5px solid var(--border)", background: "var(--card)" }}
-      >
-        {stats.map(({ value, label }, i) => (
-          <div key={label} style={{
-            textAlign: "center", padding: "4px 0",
-            borderRight: i < stats.length - 1 ? "1px solid var(--border)" : "none",
-          }}>
-            <p style={{ fontSize: "clamp(1.4rem, 4vw, 2rem)", fontWeight: 700, color: "var(--fg)",
-              letterSpacing: "-0.02em", lineHeight: 1.1 }}>
-              {value}<span style={{ color: "var(--accent)" }}>+</span>
-            </p>
-            <p style={{ fontSize: "0.72rem", color: "var(--fg3)", textTransform: "uppercase",
-              letterSpacing: "0.1em", marginTop: 4 }}>{label}</p>
-          </div>
-        ))}
-      </motion.div>
-
-      {/* Tools */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
-        <p style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.12em",
-          color: "var(--fg3)", marginBottom: 16 }}>
-          Tools I use
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
-          {tools.map(t => (
-            <span key={t} style={{ padding: "5px 14px", borderRadius: 99,
-              border: "1.5px solid var(--border)", fontSize: "0.8rem",
-              color: "var(--fg2)", background: "var(--card)",
-              transition: "border-color 0.2s, color 0.2s" }}>
-              {t}
-            </span>
-          ))}
-        </div>
       </motion.div>
 
       {/* Scroll indicator */}
