@@ -1,11 +1,60 @@
 "use client";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { SectionId } from "@/app/page";
 
 interface Props { go: (s: SectionId) => void; }
 
 const tools = ["React", "Next.js", "TypeScript", "Node.js", "Tailwind CSS", "Supabase", "Firebase", "PostgreSQL", "Figma", "Git"];
+
+const HEADLINE = "full stack developer\nbased in Ethiopia";
+
+function TypewriterHeadline() {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    let i = 0;
+    setDisplayed("");
+    setDone(false);
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(HEADLINE.slice(0, i));
+      if (i >= HEADLINE.length) {
+        clearInterval(interval);
+        setDone(true);
+      }
+    }, 45);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      {displayed.split("\n").map((line, idx) => (
+        <span key={idx}>
+          {line}
+          {idx < displayed.split("\n").length - 1 && <br />}
+        </span>
+      ))}
+      <span
+        style={{
+          display: "inline-block",
+          width: 3,
+          height: "0.85em",
+          background: "var(--accent)",
+          marginLeft: 4,
+          verticalAlign: "middle",
+          borderRadius: 2,
+          animation: done ? "blink 1s step-end infinite" : "none",
+          opacity: done ? 1 : 1,
+        }}
+      />
+      <span style={{ color: "var(--accent)" }}>.</span>
+      <style>{`@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }`}</style>
+    </>
+  );
+}
 
 export default function Hero({ go }: Props) {
   return (
@@ -60,7 +109,7 @@ export default function Hero({ go }: Props) {
           marginBottom: 22,
         }}
       >
-        full stack developer<br />based in Ethiopia<span style={{ color: "var(--accent)" }}>.</span>
+        <TypewriterHeadline />
       </motion.h1>
 
       {/* Sub */}
